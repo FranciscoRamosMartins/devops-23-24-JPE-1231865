@@ -34,13 +34,14 @@ public class Employee {
 	private String description;
 	private String jobTitle;
 	private int jobYears;
+	private String email;
 
 	public Employee() {
 
 	}
 
-	public Employee(String firstName, String lastName, String description, String jobTitle, int jobYears) {
-		if (!validateArguments(firstName, lastName, description, jobTitle, jobYears)) {
+	public Employee(String firstName, String lastName, String description, String jobTitle, int jobYears, String email) {
+		if (!validateArguments(firstName, lastName, description, jobTitle, jobYears, email)) {
 			throw new IllegalArgumentException("Invalid arguments");
 		}
 		this.firstName = firstName;
@@ -48,14 +49,16 @@ public class Employee {
 		this.description = description;
 		this.jobTitle = jobTitle;
 		this.jobYears = jobYears;
+		this.email = email;
 	}
 
-	public boolean validateArguments(String firstName, String lastName, String description, String jobTitle, int jobYears) {
+	public boolean validateArguments(String firstName, String lastName, String description, String jobTitle, int jobYears, String email) {
 		if (firstName == null || firstName.trim().isEmpty()) return false;
 		if (lastName == null || lastName.trim().isEmpty()) return false;
 		if (description == null || description.trim().isEmpty()) return false;
 		if (jobTitle == null || jobTitle.trim().isEmpty()) return false;
 		if (jobYears < 0) return false;
+		if (email == null || email.trim().isEmpty()) return false;
 		return true;
 	}
 
@@ -68,13 +71,14 @@ public class Employee {
 				Objects.equals(lastName, employee.lastName) &&
 				Objects.equals(description, employee.description) &&
 				Objects.equals(jobTitle, employee.jobTitle) &&
-				Objects.equals(jobYears, employee.jobYears);
+				Objects.equals(jobYears, employee.jobYears) &&
+				Objects.equals(email, employee.email);
 	}
 
 	@Override
 	public int hashCode() {
 
-		return Objects.hash(id, firstName, lastName, description, jobTitle, jobYears);
+		return Objects.hash(id, firstName, lastName, description, jobTitle, jobYears, email);
 	}
 
 	public Long getId() {
@@ -125,6 +129,14 @@ public class Employee {
 		this.jobYears = jobYears;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	@Override
 	public String toString() {
 		return "Employee{" +
@@ -134,6 +146,7 @@ public class Employee {
 				", description='" + description + '\'' +
 				", jobTitle='" + jobTitle + '\'' +
 				", jobYears=" + jobYears +
+				", email='" + email + '\'' +
 				'}';
 	}
 }
