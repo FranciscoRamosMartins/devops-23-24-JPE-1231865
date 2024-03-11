@@ -63,6 +63,12 @@ public class EmployeeTest {
     }
 
     @Test
+    void testInvalidEmail_shouldReturnFalse() {
+        Employee employee = new Employee();
+        assertFalse(employee.validateArguments("John", "Doe", "Description", "Developer", 5, "john"));
+    }
+
+    @Test
     void testEmployeeEquality() {
         Employee employee1 = new Employee("John", "Doe", "Description", "Developer", 5, "john@gmail.com");
         Employee employee2 = new Employee("John", "Doe", "Description", "Developer", 5, "john@gmail.com");
