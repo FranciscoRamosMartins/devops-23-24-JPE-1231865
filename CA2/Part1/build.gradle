@@ -59,7 +59,7 @@ task runClient(type:JavaExec, dependsOn: classes){
     args 'localhost', '8080'
 }
 
-task runServer(type:JavaExec, dependsOn: classes){
+task runServer(type: JavaExec, dependsOn: classes){
     group = "DevOps"
     description = "Launches a chat server that listens on port 8080"
 
@@ -68,4 +68,12 @@ task runServer(type:JavaExec, dependsOn: classes){
     mainClass = 'basic_demo.ChatServerApp'
 
     args '8080'
+}
+
+task copySource(type: Copy){
+    group = "DevOps"
+    description = "Copies source files to a backup directory"
+
+    from 'src/'
+    into 'backup'
 }
