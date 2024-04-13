@@ -44,3 +44,9 @@ task copyJar(type: Copy) {
 
 	include "*.jar"
 }
+
+task cleanBuiltFiles(type: Delete) {
+	delete fileTree(dir: 'src/main/resources/static/built', include: '**/*')
+}
+
+clean.dependsOn(cleanBuiltFiles)
