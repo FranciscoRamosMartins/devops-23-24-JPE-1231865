@@ -1,0 +1,19 @@
+FROM openjdk:17-jdk-slim
+
+# Install additional utilities
+RUN apt-get update -y && apt-get install -y git unzip
+
+WORKDIR /app/
+
+# Clone your Spring Boot application repository
+RUN git clone https://github.com/FranciscoRamosMartins/devops-23-24-JPE-1231865.git
+
+# Set the working directory
+WORKDIR /app/devops-23-24-JPE-1231865/CA2/Part2
+
+# Ensure the gradlew script is executable and build the application
+ RUN chmod +x ./gradlew && ./gradlew clean build
+
+# Configure the container to run as an executable
+ ENTRYPOINT ["./gradlew"]
+ CMD ["bootRun"]
