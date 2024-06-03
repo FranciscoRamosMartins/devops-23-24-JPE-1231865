@@ -65,12 +65,12 @@ services:
   db:
     build:
       context: .
-      dockerfile: Dockerfile.db
+      dockerfile: Dockerfile-db
     ports:
       - "8082:8082"
       - "9092:9092"
     volumes:
-      - ./data:/usr/src/data-backup
+      - h2-data:/opt/h2-data
     networks:
       default:
         ipv4_address: 192.168.33.11
@@ -78,7 +78,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: Dockerfile.web
+      dockerfile: Dockerfile-web
     ports:
       - "8080:8080"
     networks:
@@ -86,6 +86,10 @@ services:
         ipv4_address: 192.168.33.10
     depends_on:
       - "db"
+
+volumes:
+  h2-data:
+    driver: local
 
 networks:
   default:
