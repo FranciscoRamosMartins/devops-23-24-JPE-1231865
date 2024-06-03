@@ -9,7 +9,7 @@ The aim of this class assignment is to leverage Docker to construct two images a
 The initial Dockerfile created was for the web application. This Dockerfile is tasked with creating an image that runs the application. It first installs additional utilities, clones the Spring Boot application repository, and then builds the application. The Dockerfile is displayed below:
 
 ```Dockerfile
-FROM openjdk:17-jdk-slim
+FROM openjdk:21-jdk-slim
 
 # Install additional utilities
 RUN apt-get update -y && apt-get install -y git unzip
@@ -61,42 +61,35 @@ CMD java -cp /opt/h2.jar org.h2.tools.Server -web -webAllowOthers -tcp -tcpAllow
 This file is responsible for creating the two images and running the containers. It specifies the services that will be created, the images that will be used, the ports that will be exposed, and the volumes that will be mounted:
 
 ```yaml
+version: '3.8'
+
 services:
   db:
     build:
       context: .
       dockerfile: Dockerfile-db
+    container_name: db
     ports:
       - "8082:8082"
       - "9092:9092"
     volumes:
-      - h2-data:/opt/h2-data
-    networks:
-      default:
-        ipv4_address: 192.168.33.11
+      - h2-data:/app/db-backup
 
   web:
     build:
       context: .
       dockerfile: Dockerfile-web
+    container_name: web
     ports:
       - "8080:8080"
-    networks:
-      default:
-        ipv4_address: 192.168.33.10
     depends_on:
-      - "db"
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:h2:tcp://db:9092/./jpadb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
 
 volumes:
   h2-data:
     driver: local
-
-networks:
-  default:
-    ipam:
-      driver: default
-      config:
-        - subnet: 192.168.33.0/24
 ```
 After the docker-compose file is created we can build the images and run the containers by running the following command (Don't forget - you need to be in the Part2 folder and have Docker Desktop running in the background):
 

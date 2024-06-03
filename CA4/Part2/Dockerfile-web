@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-slim
+FROM openjdk:21-jdk-slim
 
 # Install additional utilities
 RUN apt-get update -y && apt-get install -y git unzip
