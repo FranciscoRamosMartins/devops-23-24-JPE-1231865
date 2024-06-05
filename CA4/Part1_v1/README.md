@@ -99,7 +99,7 @@ COPY basic_demo-0.1.0.jar /app/basic_demo-0.1.0.jar
 
 EXPOSE 59001
 
-CMD ["java", "-jar", "basic_demo-0.1.0.jar"]
+CMD ["java", "-cp", "/app/basic_demo-0.1.0.jar", "basic_demo.ChatServerApp", "59001"]
 ```
 
 Once again, you need to open Docker Desktop and leave it running in the background. Then, run the following command in the terminal to build the Docker image (please ensure you are in the project directory):
