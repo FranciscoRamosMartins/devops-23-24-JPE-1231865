@@ -9,7 +9,7 @@ The aim of this class assignment is to leverage Docker to construct two images a
 The initial Dockerfile created was for the web application. This Dockerfile is tasked with creating an image that runs the application. It first installs additional utilities, clones the Spring Boot application repository, and then builds the application. The Dockerfile is displayed below:
 
 ```Dockerfile
-FROM openjdk:21-jdk-slim
+FROM tomcat
 
 # Install additional utilities
 RUN apt-get update -y && apt-get install -y git unzip
@@ -94,7 +94,7 @@ volumes:
 After the docker-compose file is created we can build the images and run the containers by running the following command (Don't forget - you need to be in the Part2 folder and have Docker Desktop running in the background):
 
 ```bash
-docker-compose up
+docker-compose up --build
 ```
 
 After starting the containers, the web app can be accessible through your browser:
@@ -107,7 +107,7 @@ The H2 database can be accessed at:
 ```
 http://localhost:8082
 ```
-The default username is "sa" and the password is blank.
+The default username is "sa" and the password is blank. In JBDC URL, use the following URL: jdbc:h2:tcp://db:9092/./jpadb
 
 ## Pushing Docker Images to Docker Hub
 
