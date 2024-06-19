@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+
+    environment {
+        REPO_URL = 'https://github.com/FranciscoRamosMartins/devops-23-24-JPE-1231865.git'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Checking out the code...'
+                git url: "${REPO_URL}", branch: 'master'
+            }
+        }
+
+        stage('Assemble') {
+            steps {
+                dir('CA2/Part1') {
+                    echo 'Assembling the application...'
+                    sh './gradlew assemble'
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                dir('CA2/Part1') {
+                    echo 'Running unit tests...'
+                    sh './gradlew test'
+                    junit 'build/test-results/test/*.xml'
+                }
+            }
+        }
+
+        stage('Archive') {
+            steps {
+                dir('CA2/Part1') {
+                    echo 'Archiving artifacts...'
+                    archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
+                }
+            }
+        }
+    }
+}
